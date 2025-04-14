@@ -10,9 +10,9 @@ public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
 
-        //сделаем все оперции с задачами
-        Task task1 = new Task("Выучить джаву", "Любыми способами");
-        Task task2 = new Task("Запомнить всю инфу с 4го спринта...", "Трудно, но че поделаешь...");
+        //сделаем все операции с задачами
+        Task task1 = new Task("Выучить джаву", "Любыми способами", StatusOfTask.NEW);
+        Task task2 = new Task("Запомнить всю инфу с 4го спринта...", "Трудно, но че поделаешь...", StatusOfTask.NEW);
         taskManager.createTask(task1);
         taskManager.createTask(task2);
 
@@ -42,18 +42,18 @@ public class Main {
         taskManager.updateEpic(epic3);
 
 
-        Subtask subtask1 = new Subtask("Посмотреть рилсики", "С кайфом");
-        Subtask subtask2 = new Subtask("Посмотреть ВК клипы", "не с кайфом");
-        Subtask subtask3 = new Subtask("Посмотреть что-нибудь", "с кайфом");
-        taskManager.createSubtask(subtask1, 3);
-        taskManager.createSubtask(subtask2, 3);
-        taskManager.createSubtask(subtask3, epic2.getTaskId());
+        Subtask subtask1 = new Subtask("Посмотреть рилсики", "С кайфом", StatusOfTask.NEW, 2);
+        Subtask subtask2 = new Subtask("Посмотреть ВК клипы", "не с кайфом", StatusOfTask.NEW, 2);
+        Subtask subtask3 = new Subtask("Посмотреть что-нибудь", "с кайфом",StatusOfTask.NEW, 3);
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
+        taskManager.createSubtask(subtask3);
 
         taskManager.getSubtaskById(subtask1.getTaskId());
         taskManager.getSubtaskByEpic(epic1);
 
-        Subtask subtask4 = new Subtask("Посмотреть шортсы", "С кайфом", 5, StatusOfTask.DONE, 3);
-        Subtask subtask5 = new Subtask("тик ток", "тебе че 5 лет?", 6, StatusOfTask.IN_PROGRESS, 3);
+        Subtask subtask4 = new Subtask("Посмотреть шортсы", "С кайфом", 4, StatusOfTask.DONE, 2);
+        Subtask subtask5 = new Subtask("тик ток", "тебе че 5 лет?", 5, StatusOfTask.IN_PROGRESS, 2);
         taskManager.updateSubtask(subtask4);
         taskManager.updateSubtask(subtask5);
 

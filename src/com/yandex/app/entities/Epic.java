@@ -10,9 +10,9 @@ public class Epic extends Task {
     public ArrayList<Integer> getSubtasksIds() {
         return subtasksIds;
     }
-
+    //не понимаю почему должен убрать этот конструктор, ибо я тогда не смогу создавать эпики не зная изначально их id
     public Epic(String epicName, String description) {
-        super(epicName, description);
+        super(epicName, description, StatusOfTask.NEW);
     }
 
     public Epic(String epicName, String description, int id, StatusOfTask status, ArrayList<Integer> subtaskIds) {
