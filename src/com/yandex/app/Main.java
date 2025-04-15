@@ -19,7 +19,7 @@ public class Main {
         taskManager.getTaskById(task1.getTaskId());
         taskManager.getTaskById(task2.getTaskId());
 
-        Task task3 = new Task("Выучить джаву", "было бы неплохо", task1.getTaskId(), StatusOfTask.IN_PROGRESS);
+        Task task3 = new Task("Выучить джаву", "было бы неплохо", StatusOfTask.IN_PROGRESS);
 
         taskManager.updateTask(task3);
 
@@ -38,7 +38,8 @@ public class Main {
         taskManager.getEpicById(epic1.getTaskId());
         taskManager.getEpics();
 
-        Epic epic3 = new Epic("Эпик", "чет сложное...", epic1.getTaskId(), epic1.getStatus(), epic1.getSubtasksIds());
+        Epic epic3 = new Epic("Эпик", "чет сложное...");
+        epic3.setTaskId(epic1.getTaskId());
         taskManager.updateEpic(epic3);
 
 
@@ -52,10 +53,14 @@ public class Main {
         taskManager.getSubtaskById(subtask1.getTaskId());
         taskManager.getSubtaskByEpic(epic1);
 
-        Subtask subtask4 = new Subtask("Посмотреть шортсы", "С кайфом", 4, StatusOfTask.DONE, 2);
-        Subtask subtask5 = new Subtask("тик ток", "тебе че 5 лет?", 5, StatusOfTask.IN_PROGRESS, 2);
+        Subtask subtask4 = new Subtask("Посмотреть шортсы", "С кайфом", StatusOfTask.IN_PROGRESS, epic1.getTaskId());
+        subtask4.setTaskId(subtask1.getTaskId());
+        Subtask subtask5 = new Subtask("тик ток", "тебе че 5 лет?", StatusOfTask.IN_PROGRESS, epic1.getTaskId());
+        subtask5.setTaskId(subtask2.getTaskId());
         taskManager.updateSubtask(subtask4);
         taskManager.updateSubtask(subtask5);
+
+        System.out.println(taskManager.getEpicById(2));
 
         taskManager.getSubtasks();
 

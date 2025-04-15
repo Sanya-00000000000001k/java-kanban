@@ -14,13 +14,6 @@ public class Task {
         this.status = status;
     }
 
-    public Task(String taskName, String description, int taskId, StatusOfTask status) {
-        this.taskName = taskName;
-        this.description = description;
-        this.taskId = taskId;
-        this.status = status;
-    }
-
     public void setTaskId(int taskId) {
         this.taskId = taskId;
     }
