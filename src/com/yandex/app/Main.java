@@ -4,11 +4,12 @@ import com.yandex.app.entities.Epic;
 import com.yandex.app.entities.StatusOfTask;
 import com.yandex.app.entities.Subtask;
 import com.yandex.app.entities.Task;
-import com.yandex.app.logic.TaskManager;
+import com.yandex.app.logic.*;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+
+        TaskManager taskManager = Managers.getDefault();
 
         //сделаем все операции с задачами
         Task task1 = new Task("Выучить джаву", "Любыми способами", StatusOfTask.NEW);
@@ -42,7 +43,6 @@ public class Main {
         epic3.setTaskId(epic1.getTaskId());
         taskManager.updateEpic(epic3);
 
-
         Subtask subtask1 = new Subtask("Посмотреть рилсики", "С кайфом", StatusOfTask.NEW, 2);
         Subtask subtask2 = new Subtask("Посмотреть ВК клипы", "не с кайфом", StatusOfTask.NEW, 2);
         Subtask subtask3 = new Subtask("Посмотреть что-нибудь", "с кайфом",StatusOfTask.NEW, 3);
@@ -60,14 +60,24 @@ public class Main {
         taskManager.updateSubtask(subtask4);
         taskManager.updateSubtask(subtask5);
 
-        System.out.println(taskManager.getEpicById(2));
-
         taskManager.getSubtasks();
+
+        //проверка наполнения списка историй
+        taskManager.getEpicById(2);
+        taskManager.getEpicById(3);
+        taskManager.getTaskById(1);
+        taskManager.getTaskById(0);
+        taskManager.getSubtaskById(5);
+        taskManager.getSubtaskById(5);
+        taskManager.getSubtaskById(5);
+        taskManager.getSubtaskById(5);
+        taskManager.getSubtaskById(5);
+        taskManager.getSubtaskById(5);
+        taskManager.getSubtaskById(5);
 
         taskManager.removeEpicById(epic2.getTaskId());
 
         taskManager.removeSubtaskById(subtask4.getTaskId());
-
         taskManager.removeAllEpics();
         taskManager.removeAllSubtasks();
     }

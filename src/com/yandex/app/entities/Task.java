@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Task {
     protected int taskId;
+
     protected String taskName;
     protected String description;
     protected StatusOfTask status;
@@ -20,6 +21,14 @@ public class Task {
 
     public int getTaskId() {
         return taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public StatusOfTask getStatus() {
@@ -44,12 +53,13 @@ public class Task {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return taskId == task.taskId && Objects.equals(taskName, task.taskName) && Objects.equals(description, task.description) && status == task.status;
+        return taskId == task.taskId;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(taskId, taskName, description, status);
     }
+
 }
 
