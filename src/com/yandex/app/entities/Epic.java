@@ -1,13 +1,12 @@
 package com.yandex.app.entities;
 
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subtasksIds = new ArrayList<>();
+    private List<Integer> subtasksIds = new ArrayList<>();
 
-
-    public ArrayList<Integer> getSubtasksIds() {
+    public List<Integer> getSubtasksIds() {
         return subtasksIds;
     }
 

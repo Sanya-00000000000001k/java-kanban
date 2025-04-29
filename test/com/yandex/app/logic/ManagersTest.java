@@ -8,7 +8,7 @@ class ManagersTest {
 
     @Test
     public void checkManagerReturnsValidManagersExemplars() {
-        assertTrue(Managers.getDefault() instanceof TaskManager);
-        assertTrue(Managers.getDefaultHistory() instanceof HistoryManager);
+        assertInstanceOf(TaskManager.class, Managers.getDefault());
+        assertInstanceOf(HistoryManager.class, Managers.getDefaultHistory());
     }
 }

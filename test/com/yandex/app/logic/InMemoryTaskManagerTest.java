@@ -14,40 +14,40 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryTaskManagerTest {
 
     private TaskManager taskManager;
-    private HistoryManager historyManager;
+    private Task task1;
+    private Subtask subtask1;
+    private Epic epic1;
 
     @BeforeEach
     public void removeAllTasks() {
         taskManager = Managers.getDefault();
-        historyManager = Managers.getDefaultHistory();
         taskManager.removeAllTasks();
         taskManager.removeAllEpics();
+        task1 = new Task("Задача", "Озадачен", StatusOfTask.NEW);
+        subtask1 = new Subtask("Задача", "Озадачен", StatusOfTask.NEW, 1);
+        epic1 = new Epic("Задача", "Озадачен");
     }
 
     @Test
     public void testTaskManagerCanCreateTaskAndFindId() {
-        Task task1 = new Task("Задача", "Озадачен", StatusOfTask.NEW);
         taskManager.createTask(task1);
         assertEquals(task1, taskManager.getTaskById(0));
     }
 
     @Test
     public void testTaskManagerCanCreateSubtaskAndFindId() {
-        Subtask subtask1 = new Subtask("Задача", "Озадачен", StatusOfTask.NEW, 1);
         taskManager.createTask(subtask1);
         assertEquals(subtask1, taskManager.getTaskById(0));
     }
 
     @Test
     public void testTaskManagerCanCreateEpicAndFindId() {
-        Epic epic1 = new Epic("Задача", "Озадачен");
         taskManager.createTask(epic1);
         assertEquals(epic1, taskManager.getTaskById(0));
     }
 
     @Test
     public void testSpecifiedIdAndGeneratedIdConflict() {
-        Task task1 = new Task("Задача", "Озадачен", StatusOfTask.NEW);
         Task task2 = new Task("Задачка", "Озадачен", StatusOfTask.NEW);
         taskManager.createTask(task1);
         task2.setTaskId(1);
@@ -57,7 +57,6 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void testTaskRemainsUnchangedAfterAddingToManager() {
-        Task task1 = new Task("Задача 1", "Описание 1", StatusOfTask.NEW);
         Task task2 = new Task(task1.getTaskName(), task1.getDescription(), task1.getStatus());
 
         taskManager.createTask(task1);
@@ -71,11 +70,9 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void testTaskHistoryAfterUpdate() {
+        taskManager.createTask(task1);
 
-        Task initialTask = new Task("Задача 1", "Описание 1", StatusOfTask.NEW);
-        taskManager.createTask(initialTask);
-
-        int taskId = initialTask.getTaskId();
+        int taskId = task1.getTaskId();
 
         Task retrievedTask = taskManager.getTaskById(taskId);
         assertNotNull(retrievedTask);
@@ -93,8 +90,8 @@ class InMemoryTaskManagerTest {
 
         Task firstEntry = history.get(0);
         assertNotNull(firstEntry);
-        assertEquals("Задача 1", firstEntry.getTaskName());
-        assertEquals("Описание 1", firstEntry.getDescription());
+        assertEquals("Задача", firstEntry.getTaskName());
+        assertEquals("Озадачен", firstEntry.getDescription());
 
         Task secondEntry = history.get(1);
         assertNotNull(secondEntry);
