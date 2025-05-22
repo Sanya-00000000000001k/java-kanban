@@ -27,7 +27,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         private Node<Task> head;
         private Node<Task> tail;
-
+        private final Map<Integer, CustomLinkedList.Node<Task>> nodeMap = new HashMap<>();
 
         public static class Node<T> {
             public T task;
@@ -40,8 +40,6 @@ public class InMemoryHistoryManager implements HistoryManager {
                 this.next = next;
             }
         }
-
-        final private Map<Integer, CustomLinkedList.Node<Task>> nodeMap = new HashMap<>();
 
         public void linkLast(Task task) {
             if (nodeMap.containsKey(task.getTaskId())) {
