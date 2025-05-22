@@ -17,6 +17,7 @@ class InMemoryTaskManagerTest {
     private Task task1;
     private Subtask subtask1;
     private Epic epic1;
+    private HistoryManager historyManager;
 
     @BeforeEach
     public void removeAllTasks() {
@@ -26,6 +27,7 @@ class InMemoryTaskManagerTest {
         task1 = new Task("Задача", "Озадачен", StatusOfTask.NEW);
         subtask1 = new Subtask("Задача", "Озадачен", StatusOfTask.NEW, 1);
         epic1 = new Epic("Задача", "Озадачен");
+        historyManager = Managers.getDefaultHistory();
     }
 
     @Test
@@ -70,6 +72,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void testTaskHistoryAfterUpdate() {
+        Task task1 = new Task("Задача", "Описание", StatusOfTask.NEW);
         taskManager.createTask(task1);
 
         int taskId = task1.getTaskId();
@@ -85,17 +88,49 @@ class InMemoryTaskManagerTest {
         assertNotNull(retrievedUpdatedTask);
 
         List<Task> history = taskManager.getHistory();
+        assertEquals(1, history.size());
 
-        assertEquals(2, history.size());
-
-        Task firstEntry = history.get(0);
-        assertNotNull(firstEntry);
-        assertEquals("Задача", firstEntry.getTaskName());
-        assertEquals("Озадачен", firstEntry.getDescription());
-
-        Task secondEntry = history.get(1);
+        Task secondEntry = history.getFirst();
         assertNotNull(secondEntry);
         assertEquals("Задача 2", secondEntry.getTaskName());
         assertEquals("Описание 2", secondEntry.getDescription());
+    }
+
+    @Test
+    public void testRemoveSubtaskClearsEpicSubtaskIds() {
+        Epic epic = new Epic("Эпик 1", "Описание эпика");
+        taskManager.createEpic(epic);
+        int epicId = epic.getTaskId();
+
+        Subtask subtask1 = new Subtask("Сабтаска 1", "Описание сабтаски 1", StatusOfTask.IN_PROGRESS, epicId);
+        taskManager.createSubtask(subtask1);
+        int subtaskId1 = subtask1.getTaskId();
+
+        Subtask subtask2 = new Subtask("Сабтаска 2", "Описание сабтаски 2", StatusOfTask.NEW, epicId);
+        taskManager.createSubtask(subtask2);
+        int subtaskId2 = subtask2.getTaskId();
+
+        Epic retrievedEpic = taskManager.getEpicById(epicId);
+        assertNotNull(retrievedEpic);
+        List<Integer> subtaskIds = retrievedEpic.getSubtasksIds();
+        assertEquals(2, subtaskIds.size());
+        assertTrue(subtaskIds.contains(subtaskId1));
+        assertTrue(subtaskIds.contains(subtaskId2));
+
+        taskManager.removeSubtaskById(subtaskId1);
+
+        retrievedEpic = taskManager.getEpicById(epicId);
+        assertNotNull(retrievedEpic);
+        subtaskIds = retrievedEpic.getSubtasksIds();
+        assertEquals(1, subtaskIds.size());
+        assertFalse(subtaskIds.contains(subtaskId1));
+        assertTrue(subtaskIds.contains(subtaskId2));
+
+        taskManager.removeSubtaskById(subtaskId2);
+
+        retrievedEpic = taskManager.getEpicById(epicId);
+        assertNotNull(retrievedEpic);
+        subtaskIds = retrievedEpic.getSubtasksIds();
+        assertEquals(0, subtaskIds.size());
     }
 }
