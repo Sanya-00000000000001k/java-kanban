@@ -39,6 +39,10 @@ public class Task {
         this.status = status;
     }
 
+    public StatusesList getType() {
+        return StatusesList.TASK;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
