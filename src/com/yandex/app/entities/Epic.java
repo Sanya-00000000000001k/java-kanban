@@ -13,4 +13,8 @@ public class Epic extends Task {
     public Epic(String epicName, String description) {
         super(epicName, description, StatusOfTask.NEW);
     }
+
+    public StatusesList getType() {
+        return StatusesList.EPIC;
+    }
 }

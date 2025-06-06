@@ -30,3 +30,5 @@ bin/
 
 dz.iml
 .idea
+
+**/test.csv
