@@ -60,8 +60,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     protected void loadData(File file) {
-        int maxId = 0;
-
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try (BufferedReader br = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             String line;
@@ -74,8 +72,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
 
                 String[] fields = line.split(",");
-
-                int id = Integer.parseInt(fields[0]);
+                int currentId = Integer.parseInt(fields[0]);
                 StatusesList type = StatusesList.valueOf(fields[1].toUpperCase());
                 String name = fields[2];
                 StatusOfTask status = StatusOfTask.valueOf(fields[3].toUpperCase());
@@ -86,26 +83,26 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     epicId = Integer.parseInt(fields[5]);
                 }
 
-                if (id > maxId) {
-                    maxId = id;
+                if (currentId > this.id) {
+                    this.id = currentId;
                 }
 
                 switch (type) {
                     case TASK:
                         Task task = new Task(name, description, status);
-                        task.setTaskId(id);
-                        tasks.put(id, task);
+                        task.setTaskId(currentId);
+                        tasks.put(currentId, task);
                         break;
                     case EPIC:
                         Epic epic = new Epic(name, description);
-                        epic.setTaskId(id);
-                        epics.put(id, epic);
+                        epic.setTaskId(currentId);
+                        epics.put(currentId, epic);
                         break;
                     case SUBTASK:
                         Subtask subtask = new Subtask(name, description, status, epicId);
-                        subtask.setTaskId(id);
-                        subtasks.put(id, subtask);
-                        epics.get(epicId).getSubtasksIds().add(id);
+                        subtask.setTaskId(currentId);
+                        subtasks.put(currentId, subtask);
+                        epics.get(epicId).getSubtasksIds().add(currentId);
                         break;
                 }
             }
