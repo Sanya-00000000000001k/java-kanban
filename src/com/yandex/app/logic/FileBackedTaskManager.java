@@ -28,12 +28,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private final File inputfile;
+    private final String defaultTitle = "id,type,name,status,description,epic\n";
 
     public FileBackedTaskManager(File inputfile) {
         this.inputfile = inputfile;
     }
 
-    private void save() {
+    protected void save() {
         try (BufferedWriter br = new BufferedWriter(new FileWriter(inputfile))) {
             addTasksToFile();
         } catch (IOException e) {
@@ -43,7 +44,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void addTasksToFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(inputfile))) {
-            String defaultTitle = "id,type,name,status,description,epic\n";
             bw.write(defaultTitle);
             for (Task task : getTasks()) {
                 bw.write(toString(task));
@@ -59,7 +59,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private void loadData(File file) {
+    protected void loadData(File file) {
+        int maxId = 0;
+
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try (BufferedReader br = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             String line;
@@ -82,6 +84,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
                 if (type == StatusesList.SUBTASK) {
                     epicId = Integer.parseInt(fields[5]);
+                }
+
+                if (id > maxId) {
+                    maxId = id;
                 }
 
                 switch (type) {
