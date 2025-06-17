@@ -12,4 +12,8 @@ public class Subtask extends Task {
     public int getEpicId() {
         return epicId;
     }
+
+    public StatusesList getType() {
+        return StatusesList.SUBTASK;
+    }
 }
