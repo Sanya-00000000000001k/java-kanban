@@ -1,11 +1,14 @@
 package com.yandex.app.entities;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
 
     private int epicId;
 
-    public Subtask(String subtaskName, String description, StatusOfTask status, int epicId) {
-        super(subtaskName, description, status);
+    public Subtask(String subtaskName, String description, StatusOfTask status, LocalDateTime startTime, Duration duration, int epicId) {
+        super(subtaskName, description, status, startTime, duration);
         this.epicId = epicId;
     }
 

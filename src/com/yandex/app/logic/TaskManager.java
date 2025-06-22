@@ -50,5 +50,9 @@ public interface TaskManager {
 
     void checkEpicStatus(Epic epic);
 
-    List<Task> getHistory();;
+    void validate(Task task);
+
+    List<Task> getPrioritizedTasks();
+
+    List<Task> getHistory();
 }

@@ -1,5 +1,9 @@
 package com.yandex.app.entities;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Task {
@@ -8,11 +12,17 @@ public class Task {
     protected String taskName;
     protected String description;
     protected StatusOfTask status;
+    protected Duration duration;
+    protected LocalDateTime startTime;
 
-    public Task(String taskName, String description, StatusOfTask status) {
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
+    public Task(String taskName, String description, StatusOfTask status, LocalDateTime startTime, Duration duration) {
         this.taskName = taskName;
         this.description = description;
         this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     public void setTaskId(int taskId) {
@@ -39,18 +49,42 @@ public class Task {
         this.status = status;
     }
 
-    public StatusesList getType() {
-        return StatusesList.TASK;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "taskId=" + taskId +
-                ", taskName='" + taskName + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+    public String getStartTimeToString() {
+        if (startTime != null) {
+            return startTime.format(formatter);
+        } else {
+            return null;
+        }
+
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public Duration getDuration() {
+            return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plusMinutes(duration.toMinutes());
+    }
+
+    public String getEndTimeToString() {
+        if (startTime != null) return startTime.plusMinutes(duration.toMinutes()).format(formatter);
+        else return null;
+    }
+
+    public StatusesList getType() {
+        return StatusesList.TASK;
     }
 
     @Override
@@ -63,6 +97,19 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hashCode(taskId);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", duration=" + duration.toMinutes() +
+                ", startTime=" + startTime +
+                ", endTime=" + getEndTimeToString() +
+                '}';
     }
 }
 

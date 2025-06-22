@@ -6,16 +6,32 @@ import com.yandex.app.entities.Subtask;
 import com.yandex.app.entities.Task;
 import com.yandex.app.logic.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 //public class Main {
 //    public static void main(String[] args) {
 //
 //        TaskManager taskManager = Managers.getDefault();
-
-        //сделаем все операции с задачами
-//        Task task1 = new Task("Выучить джаву", "Любыми способами", StatusOfTask.NEW);
-//        Task task2 = new Task("Запомнить всю инфу с 4го спринта...", "Трудно, но че поделаешь...", StatusOfTask.NEW);
-//        taskManager.createTask(task1);
-//        taskManager.createTask(task2);
+//
+////        Task task1 = new Task("Выучить джаву", "Любыми способами", StatusOfTask.NEW);
+////        Task task2 = new Task("Запомнить всю инфу с 4го спринта...", "Трудно, но че поделаешь...", StatusOfTask.NEW, LocalDateTime.now(), Duration.ofMinutes(12));
+////        System.out.println(task2);
+////        System.out.println(task2.getEndTime());
+//
+//        //триггер исключения
+//        Subtask subtask1 = new Subtask("Посмотреть рилсики", "С кайфом", StatusOfTask.NEW, LocalDateTime.now(), Duration.ofMinutes(20), 1);
+//        Subtask subtask3 = new Subtask("Посмотреть чет", "С кайфом", StatusOfTask.NEW, LocalDateTime.now(), Duration.ofMinutes(50), 1);
+//        taskManager.createSubtask(subtask1);
+//        taskManager.createSubtask(subtask3);
+//        System.out.println(taskManager.getPrioritizedTasks());
+////        System.out.println(taskManager.getSubtaskByEpic(epic2));
+////        System.out.println(epic2);
+//
+////        taskManager.createTask(task1);
+////        taskManager.createTask(task2);
+//    }
+//}
 //
 //        taskManager.getTaskById(task1.getTaskId());
 //        taskManager.getTaskById(task2.getTaskId());
