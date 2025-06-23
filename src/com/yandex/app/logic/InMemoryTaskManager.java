@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
-    final static Comparator<Task> COMPARATOR = Comparator.comparing(Task::getStartTime,
+    protected final Comparator<Task> COMPARATOR = Comparator.comparing(Task::getStartTime,
                     Comparator.nullsLast(Comparator.naturalOrder()))
             .thenComparing(Task::getTaskId);
 
@@ -201,36 +201,30 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(StatusOfTask.NEW);
             return;
         }
-        boolean hasNew = false;
-        boolean hasDone = false;
-        boolean hasInProgress = false;
-        for (Integer id : subtaskIds) {
-            Subtask subtask = subtasks.get(id);
-            if (subtask != null) {
-                StatusOfTask status = subtask.getStatus();
-                if (status == StatusOfTask.NEW) {
-                    hasNew = true;
-                } else if (status == StatusOfTask.DONE) {
-                    hasDone = true;
-                } else if (status == StatusOfTask.IN_PROGRESS) {
-                    hasInProgress = true;
-                }
-            }
-        }
-        if (hasInProgress) {
-            epic.setStatus(StatusOfTask.IN_PROGRESS);
-            return;
-        }
-        if (subtaskIds.size() > 1 && hasNew && hasDone) {
-            epic.setStatus(StatusOfTask.IN_PROGRESS);
-            return;
-        }
+
         long newCount = subtaskIds.stream()
                 .map(subtasks::get)
-                .filter(Objects::nonNull)
-                .filter(subtask -> subtask.getStatus() == StatusOfTask.NEW)
+                .map(Subtask::getStatus)
+                .filter(status -> status == StatusOfTask.NEW)
                 .count();
-        if (newCount > 0) {
+
+        long doneCount = subtaskIds.stream()
+                .map(subtasks::get)
+                .map(Subtask::getStatus)
+                .filter(status -> status == StatusOfTask.DONE)
+                .count();
+
+        long inProgressCount = subtaskIds.stream()
+                .map(subtasks::get)
+                .map(Subtask::getStatus)
+                .filter(status -> status == StatusOfTask.IN_PROGRESS)
+                .count();
+
+        if (inProgressCount > 0) {
+            epic.setStatus(StatusOfTask.IN_PROGRESS);
+        } else if (subtaskIds.size() > 1 && newCount > 0 && doneCount > 0) {
+            epic.setStatus(StatusOfTask.IN_PROGRESS);
+        } else if (newCount > 0) {
             epic.setStatus(StatusOfTask.NEW);
         } else {
             epic.setStatus(StatusOfTask.DONE);
@@ -270,17 +264,16 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void validate(Task task) {
         List<Task> prioritizedTasks = getPrioritizedTasks();
-        for (Task existingTask : prioritizedTasks) {
-            if (task.getStartTime() == null || existingTask.getStartTime() == null) {
-                return;
-            }
-            if (task.getTaskId() == existingTask.getTaskId()) {
-                continue;
-            }
-            if ((!task.getEndTime().isAfter(existingTask.getStartTime())) ||
-                    (!task.getStartTime().isBefore(existingTask.getEndTime()))) {
-                continue;
-            }
+
+        boolean hasCollision = prioritizedTasks.stream()
+                .filter(existingTask -> task.getStartTime() != null && existingTask.getStartTime() != null)
+                .filter(existingTask -> task.getTaskId() != existingTask.getTaskId())
+                .anyMatch(existingTask ->
+                        task.getEndTime().isAfter(existingTask.getStartTime()) &&
+                                task.getStartTime().isBefore(existingTask.getEndTime())
+                );
+
+        if (hasCollision) {
             throw new CollisionException("Наблюдается задача, время начала которой пересекаются с другими.");
         }
     }

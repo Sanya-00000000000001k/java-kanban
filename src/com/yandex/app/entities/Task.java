@@ -1,9 +1,9 @@
 package com.yandex.app.entities;
 
+import com.yandex.app.logic.DateTimePatterns;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import java.util.Objects;
 
 public class Task {
@@ -14,8 +14,6 @@ public class Task {
     protected StatusOfTask status;
     protected Duration duration;
     protected LocalDateTime startTime;
-
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     public Task(String taskName, String description, StatusOfTask status, LocalDateTime startTime, Duration duration) {
         this.taskName = taskName;
@@ -55,7 +53,7 @@ public class Task {
 
     public String getStartTimeToString() {
         if (startTime != null) {
-            return startTime.format(formatter);
+            return startTime.format(DateTimePatterns.DATE_TIME_FORMATTER);
         } else {
             return null;
         }
@@ -79,7 +77,7 @@ public class Task {
     }
 
     public String getEndTimeToString() {
-        if (startTime != null) return startTime.plusMinutes(duration.toMinutes()).format(formatter);
+        if (startTime != null) return startTime.plusMinutes(duration.toMinutes()).format(DateTimePatterns.DATE_TIME_FORMATTER);
         else return null;
     }
 
@@ -107,7 +105,7 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 ", duration=" + duration.toMinutes() +
-                ", startTime=" + startTime +
+                ", startTime=" + getStartTimeToString() +
                 ", endTime=" + getEndTimeToString() +
                 '}';
     }

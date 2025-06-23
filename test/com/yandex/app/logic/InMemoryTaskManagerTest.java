@@ -26,14 +26,4 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         super.taskManager = new InMemoryTaskManager();
         initNewTasks();
     }
-
-//    @BeforeEach
-//    public void removeAllTasks() {
-//        taskManager.removeAllTasks();
-//        taskManager.removeAllEpics();
-//        task1 = new Task("Задача", "Озадачен", StatusOfTask.NEW, LocalDateTime.now(), Duration.ofMinutes(100));
-//        subtask1 = new Subtask("Задача", "Озадачен", StatusOfTask.NEW, LocalDateTime.now(), Duration.ofMinutes(100), 1);
-//        epic1 = new Epic("Задача", "Озадачен", LocalDateTime.now(), LocalDateTime.of(2025, 2, 2, 0, 0), Duration.ofMinutes(100));
-//        historyManager = Managers.getDefaultHistory();
-//    }
 }
