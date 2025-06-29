@@ -7,6 +7,8 @@ import com.yandex.app.logic.Managers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +26,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     public void testAddSingleTask() {
-        Task task1 = new Task("Задача 1", "Описание 1", null);
+        Task task1 = new Task("Задача 1", "Описание 1", null, LocalDateTime.now(), Duration.ofMinutes(100));
         task1.setTaskId(1);
 
         historyManager.add(task1);
@@ -40,10 +42,10 @@ class InMemoryHistoryManagerTest {
 
     @Test
     public void testAddMultipleTasks() {
-        Task task1 = new Task("Задача 1", "Описание 1", null);
+        Task task1 = new Task("Задача 1", "Описание 1", null, LocalDateTime.now(), Duration.ofMinutes(100));
         task1.setTaskId(1);
 
-        Task task2 = new Task("Задача 2", "Описание 2", null);
+        Task task2 = new Task("Задача 2", "Описание 2", null, LocalDateTime.now(), Duration.ofMinutes(100));
         task2.setTaskId(2);
 
         historyManager.add(task1);
@@ -65,10 +67,10 @@ class InMemoryHistoryManagerTest {
 
     @Test
     public void testRemoveNodeById() {
-        Task task1 = new Task("Задача 1", "Описание 1", null);
+        Task task1 = new Task("Задача 1", "Описание 1", null, LocalDateTime.now(), Duration.ofMinutes(100));
         task1.setTaskId(1);
 
-        Task task2 = new Task("Задача 2", "Описание 2", null);
+        Task task2 = new Task("Задача 2", "Описание 2", null, LocalDateTime.now(), Duration.ofMinutes(100));
         task2.setTaskId(2);
 
         historyManager.add(task1);
@@ -92,7 +94,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     public void testRemoveNonExistentNode() {
-        Task task1 = new Task("Задача 1", "Описание 1", null);
+        Task task1 = new Task("Задача 1", "Описание 1", null, LocalDateTime.now(), Duration.ofMinutes(100));
         task1.setTaskId(1);
 
         historyManager.add(task1);

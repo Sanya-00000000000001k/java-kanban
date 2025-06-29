@@ -32,3 +32,5 @@ dz.iml
 .idea
 
 **/test.csv
+
+**/*.class
