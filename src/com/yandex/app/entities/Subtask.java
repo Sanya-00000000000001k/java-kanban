@@ -19,4 +19,18 @@ public class Subtask extends Task {
     public StatusesList getType() {
         return StatusesList.SUBTASK;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", duration=" + duration.toMinutes() +
+                ", startTime=" + getStartTimeToString() +
+                ", endTime=" + getEndTimeToString() +
+                ", epicId=" + epicId +
+                '}';
+    }
 }
