@@ -257,7 +257,7 @@ public class HttpTaskServer {
                             sendText(exchange, "{\"Ошибка\": \"Ошибка при обновлении подазадачи\"}", 500);
                         }
                     } else {
-                        sendText(exchange, "{\"error\": \"Invalid endpoint\"}", 404);
+                        sendText(exchange, "{\"Ошибка\": \"Неверный эндпоинт\"}", 404);
                     }
                     break;
 
