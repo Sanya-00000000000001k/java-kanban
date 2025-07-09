@@ -261,6 +261,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
     }
+
     @Override
     public void validate(Task task) {
         List<Task> prioritizedTasks = getPrioritizedTasks();
