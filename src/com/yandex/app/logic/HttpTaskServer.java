@@ -237,8 +237,7 @@ public class HttpTaskServer {
                             sendText(exchange, "{\"Успех\": \"Подзадача успешно создана\"}", 201);
                         } catch (CollisionException e) {
                             sendText(exchange, "{\"Ошибка\": \"Подзадача пересекается с другой\"}", 409);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             sendText(exchange, "{\"Ошибка\": \"Не удалось создать подзадачу\"}", 500);
                         }
                     } else if (path.matches("/subtasks/\\d+")) {
@@ -252,8 +251,7 @@ public class HttpTaskServer {
                             sendText(exchange, "{\"Успех\": \"Подзадача обновлена\"}", 200);
                         } catch (CollisionException e) {
                             sendText(exchange, "{\"Ошибка\": \"Подзадача пересекается с другой\"}", 409);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             sendText(exchange, "{\"Ошибка\": \"Ошибка при обновлении подазадачи\"}", 500);
                         }
                     } else {
