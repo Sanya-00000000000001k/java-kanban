@@ -227,6 +227,7 @@ public class HttpTaskServer {
                     }
                     break;
 
+                //пустая строка для тестов
                 case "POST":
                     if (path.equals("/subtasks")) {
                         try {
@@ -261,7 +262,7 @@ public class HttpTaskServer {
                     }
                     break;
 
-                    
+                // пустая строка для тестов
                 case "DELETE":
                     if (path.matches("/subtasks/\\d+")) {
                         try {
