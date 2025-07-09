@@ -261,6 +261,7 @@ public class HttpTaskServer {
                     }
                     break;
 
+                    
                 case "DELETE":
                     if (path.matches("/subtasks/\\d+")) {
                         try {
