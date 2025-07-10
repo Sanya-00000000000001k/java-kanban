@@ -2,7 +2,6 @@ package com.yandex.app.logic;
 
 import com.yandex.app.entities.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

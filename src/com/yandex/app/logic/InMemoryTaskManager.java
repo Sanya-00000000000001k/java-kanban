@@ -18,11 +18,11 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     protected final Map<Integer, Epic> epics = new HashMap<>();
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
-    protected final Comparator<Task> COMPARATOR = Comparator.comparing(Task::getStartTime,
+    protected final Comparator<Task> comparator = Comparator.comparing(Task::getStartTime,
                     Comparator.nullsLast(Comparator.naturalOrder()))
             .thenComparing(Task::getTaskId);
 
-    protected Set<Task> prioritizedTasks = new TreeSet<>(COMPARATOR);
+    protected Set<Task> prioritizedTasks = new TreeSet<>(comparator);
 
     @Override
     public int generateTaskId() {
@@ -261,6 +261,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
     }
+
     @Override
     public void validate(Task task) {
         List<Task> prioritizedTasks = getPrioritizedTasks();
